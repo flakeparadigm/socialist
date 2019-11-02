@@ -1,0 +1,53 @@
+/**
+ * PRIMARY APP STYLES
+ */
+#app {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  color: #333;
+  margin: 25px auto;
+  padding: 1em;
+  width: 95%;
+    max-width: 55em;
+
+
+  a {
+    color: #0E8F68;
+    text-decoration: none;
+
+    &:hover {
+      color: #0B523D;
+    }
+  }
+
+  h2.page-title {
+    float: left;
+  }
+  p.toggle-text {
+    float: right;
+
+    a {
+      cursor: pointer;
+
+      &.router-link-active {
+        color: #333;
+        cursor: default;
+      }
+    }
+  }
+
+  hr.add-bottom {
+    background: 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 -1em 2em;
+  }
+
+  p.text-fin {
+    color: #666;
+    text-align: center;
+    font-style: italic;
+  }
+}

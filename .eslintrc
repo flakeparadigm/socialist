@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  // add your custom rules here
+  "rules": {
+    "import/extensions": ["error", "always", {
+      "js": "never"
+    }],
+    "no-param-reassign": ["error", {
+      "props": true
+    }],
+    // allow optionalDependencies
+    "import/no-extraneous-dependencies": "error",
+    "arrow-parens": ["error", "always"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "import/no-unresolved": "off"
+  }
+}

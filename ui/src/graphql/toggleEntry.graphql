@@ -1,0 +1,6 @@
+mutation ToggleEntry($entryId: ID!, $done: Boolean!) {
+  toggleEntry(id: $entryId, done: $done) {
+    id,
+    done
+  }
+}

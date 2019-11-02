@@ -1,0 +1,8 @@
+// NOTE: This file exists only to help Vetur understand the project structure
+{
+  "extends": "./ui/tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "ui/node_modules"
+  ]
+}

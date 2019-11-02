@@ -1,0 +1,10 @@
+query entries($owner: ID, $creator: ID, $done: Boolean) {
+  entries(owner: $owner, creator: $creator, done: $done) {
+    id,
+    owner { id },
+    creator { id },
+    title,
+    url,
+    done
+  }
+}
