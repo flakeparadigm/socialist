@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home.vue';
+import Lists from '@/views/Lists.vue';
+import ViewList from '@/views/ViewList.vue';
 import Feed from '@/views/Feed.vue';
 import User from '@/views/User.vue';
 
@@ -15,27 +17,41 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/feed',
-      name: 'Feed',
-      component: Feed,
+      path: '/lists',
+      name: 'Lists',
+      component: Lists,
     },
     {
-      path: '/from/:viewUser',
-      name: 'FromUser',
-      component: User,
+      path: '/lists/:listId',
+      name: 'ViewList',
+      component: ViewList,
       props: (route) => ({
-        viewUser: route.params.viewUser,
-        direction: 'from',
+        listId: route.params.listId
       }),
     },
-    {
-      path: '/to/:viewUser',
-      name: 'ToUser',
-      component: User,
-      props: (route) => ({
-        viewUser: route.params.viewUser,
-        direction: 'to',
-      }),
-    },
+
+    // {
+    //   path: '/feed',
+    //   name: 'Feed',
+    //   component: Feed,
+    // },
+    // {
+    //   path: '/from/:viewUser',
+    //   name: 'FromUser',
+    //   component: User,
+    //   props: (route) => ({
+    //     viewUser: route.params.viewUser,
+    //     direction: 'from',
+    //   }),
+    // },
+    // {
+    //   path: '/to/:viewUser',
+    //   name: 'ToUser',
+    //   component: User,
+    //   props: (route) => ({
+    //     viewUser: route.params.viewUser,
+    //     direction: 'to',
+    //   }),
+    // },
   ],
 });

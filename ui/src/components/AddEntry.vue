@@ -9,84 +9,70 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
-import CREATE_ENTRY from '@/graphql/createEntry.graphql';
-import ENTRIES from '@/graphql/entries.graphql';
-import { addToCachedLists } from '@/utils/apolloCacheHelpers';
-import { Entry } from '@/schemas/Entry/typedefs.ts';
+import CREATE_ENTRY from '@/schemas/Entry/createEntry.graphql';
+import { EntryInput } from '@/schemas/Entry/types.ts';
+import ProgressBar from './ProgressBar.vue';
 
-function getBlankEntry(component: any) {
+function getBlankEntry(component: AddEntry): EntryInput {
   return {
-    ownerId: component.ownerId,
+    listId: parseInt(component.listId, 10),
     creatorId: component.currentUser,
     title: '',
   };
 }
 
-export default Vue.extend({
-  name: 'AddEntry',
-  props: {
-    ownerId: String,
-  },
+@Component({
+  computed: mapGetters(['currentUser']),
+})
+class AddEntry extends Vue {
+  private readonly $bar: ProgressBar;
 
-  data: () => ({
-    disabled: false,
-    entry: {},
-  }),
+  readonly currentUser: string;
 
-  computed: {
-    ...mapGetters(['currentUser']),
-  },
+  @Prop(String) readonly listId: string;
 
-  methods: {
-    submit() {
-      if (!this.entry.title) {
-        return;
-      }
+  private disabled = false;
 
-      this.disabled = true;
-      this.$bar.start();
+  private entry: EntryInput = null;
 
-      this.sendMutation(this.entry)
-        .then(() => {
-          this.$emit('submitted', this.done);
-        })
-        .catch(() => {
-          // TODO: handle error?
-          this.disabled = false;
-        });
-    },
+  submit() {
+    if (!this.entry.title) {
+      return;
+    }
 
-    sendMutation(entry: Entry) {
-      return this.$apollo.mutate({
-        mutation: CREATE_ENTRY,
-        variables: { entry },
-        update: addToCachedLists('createEntry', [
-          { name: 'entries', query: ENTRIES, variables: { owner: this.ownerId } },
-          { name: 'entries', query: ENTRIES, variables: { owner: this.ownerId, done: false } },
-          { name: 'entries', query: ENTRIES, variables: { owner: this.ownerId, creator: this.currentUser } },
-          { name: 'entries', query: ENTRIES, variables: { owner: this.ownerId, creator: this.currentUser, done: false } },
-        ]),
+    this.disabled = true;
+    this.$bar.start();
 
-        // refetchQueries: [
-        //   { query: ENTRIES, variables: { owner: this.ownerId, done: false } },
-        //   { query: ENTRIES, variables: { owner: this.ownerId, done: null } },
-        // ],
+    this.sendMutation(this.entry)
+      .then(() => {
+        this.$emit('submitted', this.done);
+      })
+      .catch(() => {
+        // TODO: handle error?
+        this.disabled = false;
       });
-    },
+  }
 
-    done() {
-      this.$bar.finish();
-      this.entry = getBlankEntry(this);
-      this.disabled = false;
-    },
-  },
+  sendMutation(entry: EntryInput) {
+    return this.$apollo.mutate({
+      mutation: CREATE_ENTRY,
+      variables: { entry },
+    });
+  }
+
+  done() {
+    this.$bar.finish();
+    this.entry = getBlankEntry(this);
+    this.disabled = false;
+  }
 
   beforeMount() {
     this.entry = getBlankEntry(this);
-  },
-});
+  }
+}
+export default AddEntry;
 </script>
 
 <style lang="scss" scoped>

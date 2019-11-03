@@ -5,22 +5,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Entry } from '@/schemas/Entry/typedefs.ts';
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Entry } from '@/schemas/Entry/types.ts';
 import EntrySummary from './EntrySummary.vue';
 
-export default Vue.extend({
-  name: 'EntryList',
+@Component({
   components: { EntrySummary },
-  props: {
-    entries: Array,
-  },
-  computed: {
-    filteredEntries() {
-      return this.entries.filter((entry: Entry) => !!entry);
-    },
-  },
-});
+})
+class EntryList extends Vue {
+  @Prop(Array) private readonly entries: Entry[];
+
+  get filteredEntries(): Entry[] {
+    return this.entries.filter((entry: Entry) => !!entry);
+  }
+}
+export default EntryList;
 </script>
 
 <style scoped>

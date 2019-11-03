@@ -14,37 +14,36 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
+import ProgressBar from '../components/ProgressBar.vue';
 
-export default Vue.extend({
-  name: 'Home',
+@Component({
+  computed: mapGetters(['loggedIn']),
+})
+class Home extends Vue {
+  private $bar: ProgressBar;
 
-  data: () => ({
-    newUser: '',
-  }),
+  private loggedIn: boolean;
 
-  computed: {
-    ...mapGetters(['loggedIn']),
-  },
+  private newUser = '';
 
-  methods: {
-    login() {
-      this.$store.dispatch('USER_LOGIN', { user: this.newUser })
-        .then(() => {
-          if (this.loggedIn) this.$router.push({ name: 'Feed' });
-        });
-    },
-  },
+  login() {
+    this.$store.dispatch('USER_LOGIN', { user: this.newUser })
+      .then(() => {
+        if (this.loggedIn) this.$router.push({ name: 'Lists' });
+      });
+  }
 
   beforeMount() {
     this.$bar.finish();
 
     if (this.loggedIn) {
-      this.$router.replace({ name: 'Feed' });
+      this.$router.replace({ name: 'Lists' });
     }
-  },
-});
+  }
+}
+export default Home;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -5,11 +5,14 @@ import { VueConstructor } from 'vue';
 import VueApollo from 'vue-apollo';
 
 export default function getApolloProvider(Vue: VueConstructor) {
+  Vue.use(VueApollo);
+
   // Setup and use VueApollo
   const httpLink = new HttpLink({
     // You should use an absolute URL here
     uri: process.env.GRAPHQL_URL,
   });
+
   const apolloClient = new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache(),
@@ -20,10 +23,8 @@ export default function getApolloProvider(Vue: VueConstructor) {
       },
     },
   });
-  const apolloProvider = new VueApollo({
+
+  return new VueApollo({
     defaultClient: apolloClient,
   });
-
-  Vue.use(VueApollo);
-  return apolloProvider;
 }

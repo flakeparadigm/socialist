@@ -1,6 +1,6 @@
 import { isUndefined } from 'lodash';
-import { entries, lists, users, StoredEntry, StoredUser } from '../mockData';
-import { EntryQuery, EntriesQuery, EntryInput, ToggleEntryMutation } from './typedefs';
+import { entries, lists, users, StoredEntry } from '../mockData';
+import { EntryQuery, EntriesQuery, EntryInput, ToggleEntryMutation } from './types';
 
 export default {
   Entry: {

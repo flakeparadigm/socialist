@@ -1,0 +1,19 @@
+query list($id: ID!) {
+  list(id: $id) {
+    id
+    name
+    owner { id }
+    entries {
+      id
+      list {
+        name
+        owner { id }
+      }
+      creator { id }
+      title
+      url
+      text
+      done
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { isUndefined } from 'lodash';
 import { users, entries, StoredUser } from '../mockData';
-import { UserQuery, UserInput } from './typedefs';
+import { UserQuery, UserInput } from './types';
 
 export default {
   User: {

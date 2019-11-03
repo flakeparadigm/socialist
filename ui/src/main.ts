@@ -27,8 +27,8 @@ const apolloProvider = getApolloProvider(Vue);
 new Vue({
   router,
   store,
+  apolloProvider,
   el: '#app',
-  provide: apolloProvider.provide(),
   template: '<App/>',
   components: { App },
 });

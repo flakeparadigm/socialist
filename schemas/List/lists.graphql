@@ -1,0 +1,6 @@
+query lists($ownerId: ID) {
+  lists(ownerId: $ownerId) {
+    id,
+    name
+  }
+}

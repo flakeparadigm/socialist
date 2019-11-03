@@ -8,9 +8,9 @@
 
       <p class="meta">
         Added by
-        <router-link :to="{ name: 'FromUser', params: { viewUser: entry.creator.id } }">
+        <!-- <router-link :to="{ name: 'FromUser', params: { viewUser: entry.creator.id } }"> -->
           {{ entry.creator.id | friendlyUser(currentUser) }}
-        </router-link>
+        <!-- </router-link> -->
       </p>
     </div>
 
@@ -27,68 +27,43 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
-import ENTRIES from '@/graphql/entries.graphql';
-import TOGGLE_ENTRY from '@/graphql/toggleEntry.graphql';
-import {
-  addToCachedLists,
-  removeFromCachedLists,
-} from '@/utils/apolloCacheHelpers';
+import TOGGLE_ENTRY from '@/schemas/Entry/toggleEntry.graphql';
+import { Entry } from '@/schemas/Entry/types.ts';
+import ProgressBar from './ProgressBar.vue';
 
-export default Vue.extend({
-  name: 'EntrySummary',
-  props: {
-    entry: Object,
-  },
-  computed: {
-    readOnly() {
-      return this.entry.owner.id !== this.currentUser;
-    },
-    ...mapGetters(['currentUser']),
-  },
-  methods: {
-    toggleDone() {
-      this.$bar.start();
-      this.sendMutation().then(this.$bar.finish);
-    },
+@Component({
+  computed: mapGetters(['currentUser']),
+})
+class EntrySummary extends Vue {
+  private $bar: ProgressBar;
 
-    sendMutation() {
-      return this.$apollo.mutate({
-        mutation: TOGGLE_ENTRY,
-        variables: {
-          entryId: this.entry.id,
-          done: !this.entry.done,
-        },
+  private currentUser: string;
 
-        update: (store: any, data: any) => {
-          const dataKey = 'toggleEntry';
-          const queries = [
-            {
-              name: 'entries',
-              query: ENTRIES,
-              variables: {
-                owner: this.entry.owner.id, done: false,
-              },
-            },
-            {
-              name: 'entries',
-              query: ENTRIES,
-              variables: {
-                owner: this.entry.owner.id, creator: this.entry.creator.id, done: false,
-              },
-            },
-          ];
-          const helper = data.data.toggleEntry.done
-            ? removeFromCachedLists(dataKey, queries)
-            : addToCachedLists(dataKey, queries);
+  @Prop(Object) private readonly entry: Entry;
 
-          helper(store, data);
-        },
-      });
-    },
-  },
-});
+  get readOnly() {
+    return this.entry.list.owner.id !== this.currentUser;
+  }
+
+  toggleDone() {
+    this.$bar.start();
+    this.sendMutation().then(this.$bar.finish);
+  }
+
+  sendMutation() {
+    return this.$apollo.mutate({
+      mutation: TOGGLE_ENTRY,
+      variables: {
+        entryId: this.entry.id,
+        done: !this.entry.done,
+      },
+    });
+  }
+}
+
+export default EntrySummary;
 </script>
 
 <style lang="scss" scoped>

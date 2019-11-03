@@ -1,19 +1,6 @@
 import gql from 'graphql-tag'
 import { DocumentNode } from 'graphql';
 
-export interface FriendsQuery {
-  userId: string
-};
-
-export interface FriendshipMutation {
-  initUserId: string
-  confUserId: string
-}
-
-export interface DeleteFriendshipMutation {
-  betweenUsers: string[]
-}
-
 export const schema: DocumentNode = gql`
   type Friendship {
     initUser: User

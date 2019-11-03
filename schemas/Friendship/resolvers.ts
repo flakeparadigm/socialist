@@ -1,6 +1,6 @@
 import { isUndefined } from 'lodash';
 import { friendships, users, StoredFriendship } from '../mockData';
-import { FriendsQuery, FriendshipMutation, DeleteFriendshipMutation } from './typedefs';
+import { FriendsQuery, FriendshipMutation, DeleteFriendshipMutation } from './types';
 
 function findFriendshipIndex(betweenUsers: string[]) {
   const [userId1, userId2] = betweenUsers;

@@ -1,5 +1,5 @@
 import { lists, entries, users, StoredList } from '../mockData';
-import { ListQuery, ListsQuery, ListInput } from './typedefs';
+import { ListQuery, ListsQuery, ListInput } from './types';
 
 export default {
   List: {

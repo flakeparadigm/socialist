@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import { buildFederatedSchema } from '@apollo/federation';
-import typeDefs from './schemas/typedefs';
+import typeDefs from './schemas/schema';
 import resolvers from './schemas/resolvers';
 
 const server = new ApolloServer({

@@ -1,21 +1,5 @@
 import gql from 'graphql-tag'
-import { Entry } from '../Entry/typedefs';
-import { List } from '../List/typedefs';
 import { DocumentNode } from 'graphql';
-
-export interface User {
-  id: string
-  entries: Entry[]
-  lists: List[]
-}
-
-export interface UserInput {
-  id: string
-}
-
-export interface UserQuery {
-  id: string
-}
 
 export const schema: DocumentNode = gql`
   type User {
