@@ -12,7 +12,7 @@ export interface Entry {
 }
 
 export interface EntryInput {
-  listId: number
+  listId: string
   creatorId: string
   title: string
   url?: string
@@ -20,17 +20,17 @@ export interface EntryInput {
 }
 
 export interface EntryQuery {
-  id: number
+  id: string
 }
 
 export interface EntriesQuery {
-  list?: number
+  list?: string
   creator?: string
   done?: boolean
   search?: string
 }
 
 export interface ToggleEntryMutation {
-  id: number
+  id: string
   done: boolean
 }

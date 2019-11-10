@@ -9,7 +9,7 @@ export default {
 
   Query: {
     list(obj: any, { id }: ListQuery) {
-      return lists[id];
+      return lists[parseInt(id)];
     },
 
     lists(obj: any, { ownerId }: ListsQuery) {
@@ -29,9 +29,11 @@ export default {
     },
 
     deleteList(obj: any, { id }: ListQuery) {
-      if (!lists[id]) return false;
+      const idInt = parseInt(id);
 
-      return delete lists[id];
+      if (!lists[idInt]) return false;
+
+      return delete lists[idInt];
     },
   },
 };

@@ -1,10 +1,5 @@
 mutation CreateNewEntry($entry: EntryInput) {
   createEntry(entry: $entry) {
-    id,
-    owner { id },
-    creator { id },
-    title,
-    url,
-    done
+    id
   }
 }

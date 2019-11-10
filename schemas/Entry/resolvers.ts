@@ -10,7 +10,7 @@ export default {
 
   Query: {
     entry(obj: any, { id }: EntryQuery): StoredEntry {
-      return entries[id];
+      return entries[parseInt(id)];
     },
 
     entries(obj: any, {
@@ -19,7 +19,7 @@ export default {
       let filtered = entries;
 
       if (!isUndefined(list)) {
-        filtered = filtered.filter((entry) => entry.listId === list);
+        filtered = filtered.filter((entry) => entry.listId === parseInt(list));
       }
 
       if (!isUndefined(creator)) {
@@ -47,15 +47,17 @@ export default {
       const newEntry: StoredEntry = {
         ...entry,
         id: entries.length,
-        done: false
+        listId: parseInt(entry.listId),
+        done: false,
       };
 
       entries.push(newEntry);
+
       return newEntry;
     },
 
     toggleEntry(obj: any, { id, done }: ToggleEntryMutation) {
-      const entry = entries[id];
+      const entry = entries[parseInt(id)];
 
       if (!entry) throw new Error(`Entry ${id} does not exist.`);
 
@@ -64,9 +66,11 @@ export default {
     },
 
     deleteEntry(obj: any, { id }: EntryQuery) {
-      if (!entries[id]) return false;
+      const idInt = parseInt(id);
 
-      return delete entries[id];
+      if (!entries[idInt]) return false;
+
+      return delete entries[idInt];
     },
   },
 };

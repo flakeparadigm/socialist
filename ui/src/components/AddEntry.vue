@@ -17,7 +17,7 @@ import ProgressBar from './ProgressBar.vue';
 
 function getBlankEntry(component: AddEntry): EntryInput {
   return {
-    listId: parseInt(component.listId, 10),
+    listId: component.listId,
     creatorId: component.currentUser,
     title: '',
   };

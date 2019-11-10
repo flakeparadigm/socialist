@@ -14,7 +14,7 @@ export interface ListInput {
 }
 
 export interface ListQuery {
-  id: number
+  id: string
 }
 
 export interface ListsQuery {
