@@ -1,10 +1,10 @@
 <template>
-  <div class="home">
-    <h2>Welcome</h2>
+  <div class="login">
+    <h2 class="page-title">
+      Please login
+    </h2>
 
-    <div class="login">
-      <h3>Please login</h3>
-
+    <div class="page-content">
       <form @submit.prevent="login">
         <input v-model="newUser" placeholder="User" /><br>
         <input type="submit" value="Login" />
@@ -16,14 +16,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
-import ProgressBar from '../components/ProgressBar.vue';
+import { Route } from 'vue-router';
 
 @Component({
   computed: mapGetters(['loggedIn']),
 })
-class Home extends Vue {
-  private $bar: ProgressBar;
-
+class Login extends Vue {
   private loggedIn: boolean;
 
   private newUser = '';
@@ -31,21 +29,20 @@ class Home extends Vue {
   login() {
     this.$store.dispatch('USER_LOGIN', { user: this.newUser })
       .then(() => {
-        if (this.loggedIn) this.$router.push({ name: 'Lists' });
+        const newRoute = this.$route.query.redirect.toString() || '/';
+
+        if (this.loggedIn) {
+          this.$router.push(newRoute);
+        }
       });
   }
 
-  beforeMount() {
-    this.$bar.finish();
-
+  beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (this.loggedIn) {
-      this.$router.replace({ name: 'Lists' });
+      next({ name: 'Home' });
     }
   }
 }
-export default Home;
-</script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-</style>
+export default Login;
+</script>

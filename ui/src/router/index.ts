@@ -1,20 +1,28 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home.vue';
+import Home from '@/views/Home.ts';
 import Lists from '@/views/Lists.vue';
+import Login from '@/views/Login.vue';
 import ViewList from '@/views/ViewList.vue';
-import Feed from '@/views/Feed.vue';
-import User from '@/views/User.vue';
+import store from '@/store/index.ts';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        public: true
+      }
     },
     {
       path: '/lists',
@@ -29,29 +37,20 @@ export default new Router({
         listId: route.params.listId
       }),
     },
-
-    // {
-    //   path: '/feed',
-    //   name: 'Feed',
-    //   component: Feed,
-    // },
-    // {
-    //   path: '/from/:viewUser',
-    //   name: 'FromUser',
-    //   component: User,
-    //   props: (route) => ({
-    //     viewUser: route.params.viewUser,
-    //     direction: 'from',
-    //   }),
-    // },
-    // {
-    //   path: '/to/:viewUser',
-    //   name: 'ToUser',
-    //   component: User,
-    //   props: (route) => ({
-    //     viewUser: route.params.viewUser,
-    //     direction: 'to',
-    //   }),
-    // },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((route) => route.meta.public)) {
+    next();
+  } else if (store.getters.loggedIn) {
+    next();
+  } else {
+    next({
+      name: 'Login',
+      query: { redirect: to.fullPath }
+    });
+  }
+});
+
+export default router;

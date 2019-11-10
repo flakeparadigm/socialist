@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { Store } from 'vuex';
 import actions from '@/store/actions.ts';
 import getters from '@/store/getters.ts';
 import mutations from '@/store/mutations.ts';
@@ -14,9 +14,11 @@ const state: State = {
   currentUser: null,
 };
 
-export default new Vuex.Store({
+const store: Store<State> = new Vuex.Store({
   state,
   actions,
   mutations,
   getters,
 });
+
+export default store;

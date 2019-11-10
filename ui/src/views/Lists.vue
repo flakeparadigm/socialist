@@ -46,29 +46,20 @@ import { List } from '@/schemas/List/types.ts';
       },
     },
   },
-  computed: mapGetters(['loggedIn', 'currentUser']),
+  computed: mapGetters(['currentUser']),
 })
 class Lists extends Vue {
-  private loggedIn: boolean;
-
-  private currentUser: string;
+  private readonly currentUser: string;
 
   private isLoading = false;
 
   private showDone = false;
 
   private lists: List[] = [];
-
-  beforeMount() {
-    if (!this.loggedIn) {
-      this.$router.replace({ name: 'Home' });
-    }
-  }
 }
 export default Lists;
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 p {
   text-align: center;

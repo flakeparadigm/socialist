@@ -27,7 +27,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapGetters } from 'vuex';
 import AddEntry from '@/components/AddEntry.vue';
 import EntryList from '@/components/EntryList.vue';
 import LIST_QUERY from '@/schemas/List/list.graphql';
@@ -50,16 +49,11 @@ import { List } from '@/schemas/List/types.ts';
     },
   },
   components: { EntryList, AddEntry },
-  computed: mapGetters(['loggedIn', 'currentUser']),
 })
 class ViewList extends Vue {
   private readonly $apolloData: { loading: number };
 
   private list: List;
-
-  private loggedIn: boolean;
-
-  private currentUser: string;
 
   @Prop(String) private readonly listId: string;
 
@@ -86,12 +80,6 @@ class ViewList extends Vue {
     this.$apollo.queries.list.refetch().then(done);
   }
 
-  beforeMount() {
-    if (!this.loggedIn) {
-      this.$router.replace({ name: 'Home' });
-    }
-  }
-
   mounted() {
     this.$apollo.queries.list.refetch();
   }
@@ -99,7 +87,6 @@ class ViewList extends Vue {
 export default ViewList;
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 p {
   text-align: center;

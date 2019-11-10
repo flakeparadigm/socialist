@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1><router-link :to="{ name: 'Home' }">Socialist</router-link></h1>
+    <h1><router-link :to="{ name: 'Home' }">SociaList</router-link></h1>
     <router-view></router-view>
   </div>
 </template>
