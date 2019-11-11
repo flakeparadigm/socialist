@@ -4,7 +4,7 @@
       <input class="title" v-model="entry.title" :disabled="disabled" placeholder="Title">
       <input class="url" v-model="entry.url" :disabled="disabled" placeholder="URL (optional)">
     </div>
-    <input class="submit" type="submit" :disabled="disabled" value="&gt;" title="Submit your post">
+    <input class="submit" type="submit" :disabled="disabled" value="⏎" title="Submit your post">
   </form>
 </template>
 
@@ -50,7 +50,7 @@ class AddEntry extends Vue {
         this.$emit('submitted', this.done);
       })
       .catch(() => {
-        // TODO: handle error?
+        this.$bar.fail();
         this.disabled = false;
       });
   }

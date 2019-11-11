@@ -1,10 +1,14 @@
 import { lists, entries, users, StoredList } from '../mockData';
 import { ListQuery, ListsQuery, ListInput } from './types';
+import { EntriesQueryBasic } from '../Entry/types';
 
 export default {
   List: {
     owner: ({ ownerId }: StoredList) => users.find((user) => user.id === ownerId),
-    entries: ({ id }: StoredList) => entries.filter((entry) => entry.listId === id),
+    entries: ({ id }: StoredList, { complete }: EntriesQueryBasic) => entries.filter((entry) => (
+      entry.listId === id
+      && entry.complete === complete
+    )),
   },
 
   Query: {

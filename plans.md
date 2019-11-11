@@ -3,19 +3,19 @@ SociaList is a social "todo" list application. It allows users to subscribe to p
 
 # Capabilities
 ## Phase One - User & Feed (Not very useful)
-* Users can create an account to store a private list
+* Users can access an account to store a private list
 * Users can add entries to their private list
-* Users can view their "feed", which shows the entries in their private list that are not "done"
+* Users can view their "feed", which shows the entries in their private list that are not "complete"
 
 ## Phase Two - Completion (Just a todo app)
-* Users can mark any entry as "done"
-* Users can view a list of all entries they have marked as "done"
-* Users can search for entries they have "done"
+* Users can mark any entry as "complete"
+* Users can view a list of all entries they have marked as "complete"
 
 ## Phase Three - Signup
 * Users can create an account & password
 * Users are required to enter a password to sign in
 * Users can update their password
+* Users cannot view, edit, or add to other users' lists
 
 ## Phase Four - Friendship (MVP)
 * Users can "befriend" other Users
@@ -40,3 +40,4 @@ SociaList is a social "todo" list application. It allows users to subscribe to p
 * Smart lists that people might be interested in
 * Sharing tool that recommends what friends might be interested in your entry
 * Ways to handle adding the same entry multiple times to a list
+* Users can search for entries they have "complete"

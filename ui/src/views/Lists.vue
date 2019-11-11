@@ -53,7 +53,7 @@ class Lists extends Vue {
 
   private isLoading = false;
 
-  private showDone = false;
+  private showComplete = false;
 
   private lists: List[] = [];
 }

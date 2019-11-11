@@ -16,10 +16,10 @@
 
     <button
       class="completion"
-      :class="{ done: entry.done }"
+      :class="{ complete: entry.complete }"
       :disabled="readOnly"
-      @click="toggleDone"
-      title="Mark as done"
+      @click="toggleComplete"
+      title="Mark as complete"
     >
       ✓
     </button>
@@ -47,7 +47,7 @@ class EntrySummary extends Vue {
     return this.entry.list.owner.id !== this.currentUser;
   }
 
-  toggleDone() {
+  toggleComplete() {
     this.$bar.start();
     this.sendMutation().then(this.$bar.finish);
   }
@@ -57,8 +57,10 @@ class EntrySummary extends Vue {
       mutation: TOGGLE_ENTRY,
       variables: {
         entryId: this.entry.id,
-        done: !this.entry.done,
+        complete: !this.entry.complete,
       },
+    }).then(() => {
+      this.$emit('updated');
     });
   }
 }
@@ -111,7 +113,7 @@ export default EntrySummary;
       background: rgba(0, 0, 0, 0.1);
     }
 
-    &:hover:not([disabled]), &.done {
+    &:hover:not([disabled]), &.complete {
       color: #4FC4A1;
     }
   }

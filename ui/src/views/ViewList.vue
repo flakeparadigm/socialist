@@ -6,22 +6,19 @@
         🔁
       </a>
     </h2>
+
+    <add-entry :listId="this.listId" @submitted="updateEntries" />
+    <entry-list :entries="entries" @updated="updateEntries" />
+
     <p class="toggle-text">
-      <a href="#" @click="showDone = !showDone">
-        <span v-if="showDone">Hide</span>
+      <a href="#" @click="toggleShowComplete">
+        <span v-if="showComplete">Hide</span>
         <span v-else>Show</span>
-        done
+        completed
       </a>
     </p>
 
-    <add-entry :listId="this.listId" @submitted="updateEntries" />
-    <entry-list :entries="entries" />
-
-    <hr v-if="shouldShowLoadingHr" class="add-bottom" />
-    <p v-if="isLoading">
-      <img src="/static/images/loading.svg" />
-    </p>
-    <p v-else class="text-fin">Fin.</p>
+    <entry-list v-if="showComplete" :entries="completedEntries" @updated="updateEntries" />
   </div>
 </template>
 
@@ -29,14 +26,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import AddEntry from '@/components/AddEntry.vue';
 import EntryList from '@/components/EntryList.vue';
+import ProgressBar from '@/components/ProgressBar.vue';
 import LIST_QUERY from '@/schemas/List/list.graphql';
 import { Entry } from '@/schemas/Entry/types.ts';
 import { List } from '@/schemas/List/types.ts';
 
+const QUERY_INCOMPLETE = 'list';
+const QUERY_COMPLETED = 'listCompleted';
+
 @Component({
   apollo: {
-    list: {
+    [QUERY_INCOMPLETE]: {
       query: LIST_QUERY,
+      skip() {
+        return !this.visibleQueries.includes(QUERY_INCOMPLETE);
+      },
       variables() {
         return {
           id: this.listId,
@@ -47,37 +51,80 @@ import { List } from '@/schemas/List/types.ts';
         return list;
       },
     },
+    [QUERY_COMPLETED]: {
+      query: LIST_QUERY,
+      skip() {
+        return !this.visibleQueries.includes(QUERY_COMPLETED);
+      },
+      variables() {
+        return {
+          id: this.listId,
+          complete: true,
+        };
+      },
+      update({ list }: { list: List }) {
+        this.completedEntries = list.entries;
+        return list;
+      },
+    },
   },
   components: { EntryList, AddEntry },
+  watch: {
+    visibleQueries(queries) {
+      if (queries.includes(QUERY_COMPLETED)) this.updateQueries(queries);
+    },
+  },
 })
 class ViewList extends Vue {
-  private readonly $apolloData: { loading: number };
+  private readonly $bar: ProgressBar;
 
-  private list: List;
+  private readonly list: List;
 
   @Prop(String) private readonly listId: string;
 
-  private showDone = false;
+  private showComplete = false;
 
   private entries: Entry[] = [];
 
-  get isLoading(): boolean {
-    return this.$apolloData.loading > 0;
-  }
+  private completedEntries: Entry[] = [];
+
+  private visibleQueries: string[] = [QUERY_INCOMPLETE];
 
   get listTitle() {
     return this.list ? this.list.name : '⏱';
   }
 
-  get shouldShowLoadingHr() {
-    return (
-      this.isLoading
-      && ((this.entries && !this.entries.length) || !this.entries)
-    );
+  toggleShowComplete() {
+    this.showComplete = !this.showComplete;
+
+    if (this.showComplete) {
+      this.visibleQueries.push(QUERY_COMPLETED);
+    } else {
+      this.visibleQueries = this.visibleQueries.filter((query) => query !== QUERY_COMPLETED);
+    }
   }
 
-  updateEntries(done: () => void) {
-    this.$apollo.queries.list.refetch().then(done);
+  updateQueries(queries: string[]) {
+    const handleProgress = !this.$bar.isActive;
+
+    if (handleProgress) this.$bar.start();
+
+    return Promise.all(
+      queries.map(
+        (query) => this.$apollo.queries[query].refetch(),
+      ),
+    )
+      .then(() => {
+        if (handleProgress) this.$bar.finish();
+      })
+      .catch(() => {
+        if (handleProgress) this.$bar.fail();
+      });
+  }
+
+  updateEntries(done?: () => void) {
+    return this.updateQueries(Object.keys(this.$apollo.queries))
+      .then(done);
   }
 
   mounted() {

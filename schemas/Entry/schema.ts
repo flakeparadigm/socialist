@@ -9,7 +9,7 @@ export const schema: DocumentNode = gql`
     title: String!
     url: String
     text: String
-    done: Boolean
+    complete: Boolean
   }
 
   input EntryInput {
@@ -25,14 +25,14 @@ export const schema: DocumentNode = gql`
     entries(
       list: ID,
       creator: ID,
-      done: Boolean,
+      complete: Boolean,
       search: String
     ): [Entry]
   }
 
   extend type Mutation {
     createEntry(entry: EntryInput): Entry
-    toggleEntry(id: ID!, done: Boolean!): Entry
+    toggleEntry(id: ID!, complete: Boolean!): Entry
     deleteEntry(id: ID!): Boolean
   }
 `;

@@ -32,6 +32,10 @@ class ProgressBar extends Vue {
 
   private failedColor = '#ff0000';
 
+  get isActive() {
+    return this.show;
+  }
+
   start() {
     this.show = true;
     this.canSuccess = true;
@@ -40,33 +44,19 @@ class ProgressBar extends Vue {
       this.percent = 0;
     }
     this.cut = 10000 / Math.floor(this.duration);
+
     this.timer = window.setInterval(() => {
       this.increase(this.cut * Math.random());
       if (this.percent > 95) {
-        this.finish();
+        this.pause();
       }
     }, 100);
+
     return this;
   }
 
-  set(num: number) {
-    this.show = true;
-    this.canSuccess = true;
-    this.percent = Math.floor(num);
-    return this;
-  }
-
-  get() {
-    return Math.floor(this.percent);
-  }
-
-  increase(num: number) {
-    this.percent = this.percent + Math.floor(num);
-    return this;
-  }
-
-  decrease(num: number) {
-    this.percent = this.percent - Math.floor(num);
+  pause() {
+    clearInterval(this.timer);
     return this;
   }
 
@@ -76,12 +66,33 @@ class ProgressBar extends Vue {
     return this;
   }
 
-  pause() {
-    clearInterval(this.timer);
+  fail() {
+    this.canSuccess = false;
     return this;
   }
 
-  hide() {
+  private set(num: number) {
+    this.show = true;
+    this.canSuccess = true;
+    this.percent = Math.floor(num);
+    return this;
+  }
+
+  private get() {
+    return Math.floor(this.percent);
+  }
+
+  private increase(num: number) {
+    this.percent = this.percent + Math.floor(num);
+    return this;
+  }
+
+  private decrease(num: number) {
+    this.percent = this.percent - Math.floor(num);
+    return this;
+  }
+
+  private hide() {
     clearInterval(this.timer);
     this.timer = null;
     setTimeout(() => {
@@ -92,11 +103,6 @@ class ProgressBar extends Vue {
         }, 200);
       });
     }, 500);
-    return this;
-  }
-
-  fail() {
-    this.canSuccess = false;
     return this;
   }
 }

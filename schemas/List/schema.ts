@@ -6,7 +6,7 @@ export const schema: DocumentNode = gql`
     id: ID!
     owner: User!
     name: String!
-    entries: [Entry]
+    entries(complete: Boolean = false): [Entry]
   }
 
   input ListInput {

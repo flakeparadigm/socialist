@@ -14,7 +14,7 @@ export default {
     },
 
     entries(obj: any, {
-      list, creator, done, search,
+      list, creator, complete, search,
     }: EntriesQuery): StoredEntry[] {
       let filtered = entries;
 
@@ -26,8 +26,8 @@ export default {
         filtered = filtered.filter((entry) => entry.creatorId === creator);
       }
 
-      if (!isUndefined(done)) {
-        filtered = filtered.filter((entry) => entry.done === done);
+      if (!isUndefined(complete)) {
+        filtered = filtered.filter((entry) => entry.complete === complete);
       }
 
       if (!isUndefined(search)) {
@@ -48,7 +48,7 @@ export default {
         ...entry,
         id: entries.length,
         listId: parseInt(entry.listId),
-        done: false,
+        complete: false,
       };
 
       entries.push(newEntry);
@@ -56,12 +56,12 @@ export default {
       return newEntry;
     },
 
-    toggleEntry(obj: any, { id, done }: ToggleEntryMutation) {
+    toggleEntry(obj: any, { id, complete }: ToggleEntryMutation) {
       const entry = entries[parseInt(id)];
 
       if (!entry) throw new Error(`Entry ${id} does not exist.`);
 
-      entry.done = done;
+      entry.complete = complete;
       return entry;
     },
 

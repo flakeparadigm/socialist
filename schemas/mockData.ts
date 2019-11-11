@@ -5,7 +5,7 @@ export interface StoredEntry {
   title: string
   url?: string
   text?: string
-  done: boolean
+  complete: boolean
 }
 export const entries: StoredEntry[] = [
   {
@@ -14,7 +14,7 @@ export const entries: StoredEntry[] = [
     creatorId: 'flakeparadigm',
     title: 'Check out my website!',
     url: 'https://tyler.nien.house',
-    done: false,
+    complete: false,
   },
   {
     id: 1,
@@ -23,7 +23,7 @@ export const entries: StoredEntry[] = [
     title: 'I freaking love reddit',
     url: 'https://reddit.com',
     text: 'It really is the front page of the internet!',
-    done: false,
+    complete: false,
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ export const entries: StoredEntry[] = [
     creatorId: 'alice',
     title: 'LMGTFY',
     url: 'http://lmgtfy.com/?q=Hi!',
-    done: false,
+    complete: false,
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ export const entries: StoredEntry[] = [
     creatorId: 'alice',
     title: 'Some Examples Website',
     url: 'http://example.com',
-    done: false,
+    complete: false,
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ export const entries: StoredEntry[] = [
     creatorId: 'flakeparadigm',
     title: 'I freaking love reddit',
     url: 'https://reddit.com',
-    done: false,
+    complete: false,
   },
   {
     id: 5,
@@ -55,7 +55,15 @@ export const entries: StoredEntry[] = [
     creatorId: 'bob',
     title: 'LMGTFY',
     url: 'http://lmgtfy.com/?q=Hi!',
-    done: false,
+    complete: false,
+  },
+  {
+    id: 6,
+    listId: 0,
+    creatorId: 'flakeparadigm',
+    title: 'LMGTFY',
+    url: 'http://lmgtfy.com/?q=Hi!',
+    complete: true,
   },
 ];
 

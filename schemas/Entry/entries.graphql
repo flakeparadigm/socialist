@@ -1,10 +1,10 @@
-query entries($list: ID, $creator: ID, $done: Boolean) {
-  entries(list: $list, creator: $creator, done: $done) {
+query entries($list: ID, $creator: ID, $complete: Boolean) {
+  entries(list: $list, creator: $creator, complete: $complete) {
     id,
     owner { id },
     creator { id },
     title,
     url,
-    done
+    complete
   }
 }

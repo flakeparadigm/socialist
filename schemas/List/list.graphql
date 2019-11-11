@@ -1,9 +1,9 @@
-query list($id: ID!) {
+query list($id: ID!, $complete: Boolean = false) {
   list(id: $id) {
     id
     name
     owner { id }
-    entries {
+    entries(complete: $complete) {
       id
       list {
         name
@@ -13,7 +13,7 @@ query list($id: ID!) {
       title
       url
       text
-      done
+      complete
     }
   }
 }

@@ -1,6 +1,11 @@
 <template>
   <div class="entry-list">
-    <entry-summary v-for="entry in filteredEntries" :key="entry.id" :entry="entry" />
+    <entry-summary
+      v-for="entry in filteredEntries"
+      :key="entry.id"
+      :entry="entry"
+      @updated="$emit('updated')"
+    />
   </div>
 </template>
 

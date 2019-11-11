@@ -8,7 +8,7 @@ export interface Entry {
   title: string
   url?: string
   text?: string
-  done: boolean
+  complete: boolean
 }
 
 export interface EntryInput {
@@ -23,14 +23,17 @@ export interface EntryQuery {
   id: string
 }
 
-export interface EntriesQuery {
+export interface EntriesQueryBasic {
+  complete?: boolean
+}
+
+export interface EntriesQuery extends EntriesQueryBasic {
   list?: string
   creator?: string
-  done?: boolean
   search?: string
 }
 
 export interface ToggleEntryMutation {
   id: string
-  done: boolean
+  complete: boolean
 }

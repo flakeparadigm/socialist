@@ -22,22 +22,6 @@
     }
   }
 
-  h2.page-title {
-    float: left;
-  }
-  p.toggle-text {
-    float: right;
-
-    a {
-      cursor: pointer;
-
-      &.router-link-active {
-        color: #333;
-        cursor: default;
-      }
-    }
-  }
-
   div.page-content {
     clear: both;
   }
