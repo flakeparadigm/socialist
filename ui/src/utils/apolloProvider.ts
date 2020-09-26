@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { VueConstructor } from 'vue';
 import VueApollo from 'vue-apollo';
 
-export default function getApolloProvider(Vue: VueConstructor) {
+export default function getApolloProvider(Vue: VueConstructor): VueApollo {
   Vue.use(VueApollo);
 
   // Setup and use VueApollo

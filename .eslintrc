@@ -12,15 +12,15 @@
   ],
   // add your custom rules here
   "rules": {
-    "import/extensions": ["error", "always", {
-      "js": "never"
-    }],
     "no-param-reassign": ["error", {
       "props": true
     }],
     // allow optionalDependencies
     "import/no-extraneous-dependencies": "error",
     "arrow-parens": ["error", "always"],
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    // Fixes to handle differences in UI vs API builds
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
   }
 }

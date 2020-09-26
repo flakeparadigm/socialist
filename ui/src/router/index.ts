@@ -21,8 +21,8 @@ const router = new Router({
       name: 'Login',
       component: Login,
       meta: {
-        public: true
-      }
+        public: true,
+      },
     },
     {
       path: '/lists',
@@ -34,7 +34,7 @@ const router = new Router({
       name: 'ViewList',
       component: ViewList,
       props: (route) => ({
-        listId: route.params.listId
+        listId: route.params.listId,
       }),
     },
   ],
@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next({
       name: 'Login',
-      query: { redirect: to.fullPath }
+      query: { redirect: to.fullPath },
     });
   }
 });

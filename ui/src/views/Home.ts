@@ -1,5 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
+import { VNode } from 'vue';
 import LISTS_QUERY from '@/schemas/List/lists.graphql';
 import { List } from '@/schemas/List/types.ts';
 
@@ -9,7 +10,7 @@ import { List } from '@/schemas/List/types.ts';
 class Home extends Vue {
   private readonly currentUser: string;
 
-  beforeMount() {
+  beforeMount(): void {
     this.$apollo.query({
       query: LISTS_QUERY,
       variables: {
@@ -28,8 +29,8 @@ class Home extends Vue {
     });
   }
 
-  render() {
+  render(): VNode[] {
     return this.$slots.default;
-  };
+  }
 }
 export default Home;
