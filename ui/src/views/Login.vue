@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
-import { Route } from 'vue-router';
+import { NavigationGuardNext, Route } from 'vue-router';
 
 @Component({
   computed: mapGetters(['loggedIn']),
@@ -26,7 +26,7 @@ class Login extends Vue {
 
   private newUser = '';
 
-  login() {
+  login(): void {
     this.$store.dispatch('USER_LOGIN', { user: this.newUser })
       .then(() => {
         const newRoute = this.$route.query.redirect.toString() || '/';
@@ -37,7 +37,7 @@ class Login extends Vue {
       });
   }
 
-  beforeRouteEnter(to: Route, from: Route, next: Function) {
+  beforeRouteEnter(to: Route, from: Route, next: NavigationGuardNext): void {
     if (this.loggedIn) {
       next({ name: 'Home' });
     }

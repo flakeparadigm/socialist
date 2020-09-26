@@ -21,7 +21,6 @@
     // allow optionalDependencies
     "import/no-extraneous-dependencies": "error",
     "arrow-parens": ["error", "always"],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "import/no-unresolved": "off"
+    "no-use-before-define": "off"
   }
 }

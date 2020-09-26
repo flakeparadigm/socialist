@@ -43,16 +43,16 @@ class EntrySummary extends Vue {
 
   @Prop(Object) private readonly entry: Entry;
 
-  get readOnly() {
+  get readOnly(): boolean {
     return this.entry.list.owner.id !== this.currentUser;
   }
 
-  toggleComplete() {
+  toggleComplete(): void {
     this.$bar.start();
     this.sendMutation().then(this.$bar.finish);
   }
 
-  sendMutation() {
+  sendMutation(): Promise<void> {
     return this.$apollo.mutate({
       mutation: TOGGLE_ENTRY,
       variables: {

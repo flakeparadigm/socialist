@@ -37,7 +37,7 @@ class AddEntry extends Vue {
 
   private entry: EntryInput = null;
 
-  submit() {
+  submit(): void {
     if (!this.entry.title) {
       return;
     }
@@ -55,20 +55,22 @@ class AddEntry extends Vue {
       });
   }
 
-  sendMutation(entry: EntryInput) {
+  // Disable eslint because Apollo's `mutate` is not typed nicely
+  // See https://github.com/apollographql/apollo-client/issues/4170
+  sendMutation(entry: EntryInput) { // eslint-disable-line
     return this.$apollo.mutate({
       mutation: CREATE_ENTRY,
       variables: { entry },
     });
   }
 
-  done() {
+  done(): void {
     this.$bar.finish();
     this.entry = getBlankEntry(this);
     this.disabled = false;
   }
 
-  beforeMount() {
+  beforeMount(): void {
     this.entry = getBlankEntry(this);
   }
 }

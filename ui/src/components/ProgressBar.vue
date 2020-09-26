@@ -32,11 +32,11 @@ class ProgressBar extends Vue {
 
   private failedColor = '#ff0000';
 
-  get isActive() {
+  get isActive(): boolean {
     return this.show;
   }
 
-  start() {
+  start(): ProgressBar {
     this.show = true;
     this.canSuccess = true;
     if (this.timer) {
@@ -55,18 +55,18 @@ class ProgressBar extends Vue {
     return this;
   }
 
-  pause() {
+  pause(): ProgressBar {
     clearInterval(this.timer);
     return this;
   }
 
-  finish() {
+  finish(): ProgressBar {
     this.percent = 100;
     this.hide();
     return this;
   }
 
-  fail() {
+  fail(): ProgressBar {
     this.canSuccess = false;
     return this;
   }
@@ -83,12 +83,12 @@ class ProgressBar extends Vue {
   }
 
   private increase(num: number) {
-    this.percent = this.percent + Math.floor(num);
+    this.percent += Math.floor(num);
     return this;
   }
 
   private decrease(num: number) {
-    this.percent = this.percent - Math.floor(num);
+    this.percent -= Math.floor(num);
     return this;
   }
 

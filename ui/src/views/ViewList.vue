@@ -90,11 +90,11 @@ class ViewList extends Vue {
 
   private visibleQueries: string[] = [QUERY_INCOMPLETE];
 
-  get listTitle() {
+  get listTitle(): string {
     return this.list ? this.list.name : '⏱';
   }
 
-  toggleShowComplete() {
+  toggleShowComplete(): void {
     this.showComplete = !this.showComplete;
 
     if (this.showComplete) {
@@ -104,7 +104,7 @@ class ViewList extends Vue {
     }
   }
 
-  updateQueries(queries: string[]) {
+  updateQueries(queries: string[]): Promise<void> {
     const handleProgress = !this.$bar.isActive;
 
     if (handleProgress) this.$bar.start();
@@ -122,12 +122,12 @@ class ViewList extends Vue {
       });
   }
 
-  updateEntries(done?: () => void) {
+  updateEntries(done?: () => void): Promise<void> {
     return this.updateQueries(Object.keys(this.$apollo.queries))
       .then(done);
   }
 
-  mounted() {
+  mounted(): void {
     this.$apollo.queries.list.refetch();
   }
 }
